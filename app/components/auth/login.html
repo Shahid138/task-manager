@@ -1,0 +1,59 @@
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Task Manager</h1>
+        </div>
+        
+        <form name="loginForm" ng-submit="vm.login()" novalidate>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username"
+                    ng-model="vm.credentials.username"
+                    ng-change="vm.clearError()"
+                    class="form-control"
+                    placeholder="Enter your username"
+                    required
+                    autocomplete="username">
+                <div class="error-message" ng-if="loginForm.username.$touched && loginForm.username.$invalid">
+                    Username is required
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    ng-model="vm.credentials.password"
+                    ng-change="vm.clearError()"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password">
+                <div class="error-message" ng-if="loginForm.password.$touched && loginForm.password.$invalid">
+                    Password is required
+                </div>
+            </div>
+
+            <div class="error-alert" ng-if="vm.error">
+                <span>{{ vm.error }}</span>
+            </div>
+            
+            <div class="info-alert" ng-if="vm.showHint">
+                <strong>Demo Login:</strong> Usernames ("Bret", "Antonette", "Samantha"), password (any).
+            </div>
+            
+            <button 
+                type="submit" 
+                class="btn btn-primary btn-block"
+                ng-disabled="loginForm.$invalid || vm.isLoading">
+                <span ng-if="!vm.isLoading">Sign In</span>
+                <span ng-if="vm.isLoading">Signing in...</span>
+            </button>
+        </form>
+    </div>
+</div>

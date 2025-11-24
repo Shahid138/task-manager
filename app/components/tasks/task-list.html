@@ -1,0 +1,176 @@
+<div class="task-list-container">
+  <div class="page-header">
+    <div>
+      <h1>My Tasks</h1>
+      <p class="subtitle">Welcome back, {{ vm.currentUser.name }}!</p>
+    </div>
+    <button class="btn btn-primary" ng-click="vm.goToAddTask()">
+      <span class="icon">+</span> Add New Task
+    </button>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{ vm.stats.total }}</div>
+      <div class="stat-label">Total Tasks</div>
+    </div>
+    <div class="stat-card pending">
+      <div class="stat-value">{{ vm.stats.pending }}</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-card in-progress">
+      <div class="stat-value">{{ vm.stats.inProgress }}</div>
+      <div class="stat-label">In Progress</div>
+    </div>
+    <div class="stat-card completed">
+      <div class="stat-value">{{ vm.stats.completed }}</div>
+      <div class="stat-label">Completed</div>
+    </div>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <input
+        type="text"
+        ng-model="vm.searchQuery"
+        placeholder="Search tasks by title or description..."
+        class="search-input"
+      />
+    </div>
+
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label>Status:</label>
+        <select ng-model="vm.statusFilter" class="filter-select">
+          <option value="All">All</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Sort by:</label>
+        <select ng-model="vm.sortBy" class="filter-select">
+          <option value="dueDate">Due Date</option>
+          <option value="title">Title</option>
+          <option value="status">Status</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Order:</label>
+        <select ng-model="vm.sortOrder" class="filter-select">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+
+      <button
+        class="btn btn-secondary"
+        ng-click="vm.refreshTasks()"
+        title="Refresh tasks"
+      >
+        ↻ Refresh
+      </button>
+    </div>
+  </div>
+
+  <div class="loading-container" ng-if="vm.isLoading">
+    <div class="spinner"></div>
+    <p>Loading tasks...</p>
+  </div>
+
+  <div class="error-alert" ng-if="vm.error && !vm.isLoading">
+    {{ vm.error }}
+  </div>
+
+  <div
+    class="empty-state"
+    ng-if="!vm.isLoading && vm.filteredTasks.length === 0 && !vm.error"
+  >
+    <div class="empty-icon">📋</div>
+    <h3>No tasks found</h3>
+    <p ng-if="vm.searchQuery || vm.statusFilter !== 'All'">
+      Try adjusting your filters or search query.
+    </p>
+    <p ng-if="!vm.searchQuery && vm.statusFilter === 'All'">
+      Get started by creating your first task!
+    </p>
+    <button class="btn btn-primary" ng-click="vm.goToAddTask()">
+      Create Task
+    </button>
+  </div>
+
+  <div class="tasks-grid" ng-if="!vm.isLoading && vm.filteredTasks.length > 0">
+    <div
+      class="task-card"
+      ng-repeat="task in vm.filteredTasks track by task.id"
+      ng-class="{'completed': task.completed}"
+    >
+      <div class="task-header">
+        <span
+          class="status-badge"
+          ng-class="{
+                    'status-pending': task.status === 'Pending',
+                    'status-progress': task.status === 'In Progress',
+                    'status-completed': task.status === 'Completed'
+                }"
+        >
+          {{ task.status }}
+        </span>
+        <span class="task-id">#{{ task.id }}</span>
+      </div>
+
+      <div class="task-content">
+        <h3 class="task-title" ng-class="{'line-through': task.completed}">
+          {{ task.title }}
+        </h3>
+        <p class="task-description">{{ task.description }}</p>
+
+        <div class="task-meta">
+          <span class="meta-item">
+            Due: {{ task.dueDate | date:'MMM dd, yyyy' }}
+          </span>
+          <span class="meta-item" ng-if="task.completedAt">
+            Completed: {{ task.completedAt | date:'MMM dd, yyyy' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="task-actions">
+        <button
+          class="btn btn-success btn-sm"
+          ng-if="!task.completed"
+          ng-click="vm.markAsCompleted(task.id)"
+          title="Mark as completed"
+        >
+         Complete
+        </button>
+
+        <button
+          class="btn btn-secondary btn-sm"
+          ng-if="task.editable"
+          ng-click="vm.editTask(task.id)"
+          title="Edit task"
+        >
+          Edit
+        </button>
+
+        <button
+          class="btn btn-danger btn-sm"
+          ng-click="vm.deleteTask(task.id)"
+          title="Delete task"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="results-info"
+    ng-if="!vm.isLoading && vm.filteredTasks.length > 0"
+  >
+    Showing {{ vm.filteredTasks.length }} of {{ vm.tasks.length }} tasks
+  </div>
+</div>

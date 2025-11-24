@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="taskManagementApp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Management</title>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+  </head>
+  <body>
+    <navbar-component ng-if="$root.isAuthenticated"></navbar-component>
+
+    <div class="main-container">
+      <div ng-view class="view-container"></div>
+    </div>
+
+    <script src="app/app.js"></script>
+    <script src="app/app.routes.js"></script>
+
+    <script src="app/components/auth/auth.service.js"></script>
+    <script src="app/components/tasks/task.service.js"></script>
+
+    <script src="app/components/auth/login.controller.js"></script>
+    <script src="app/components/tasks/task-list.controller.js"></script>
+    <script src="app/components/tasks/task-form.controller.js"></script>
+
+    <script src="app/components/common/navbar.directive.js"></script>
+    <script src="app/directives/task-item.directive.js"></script>
+
+    <script src="app/filters/task-filter.js"></script>
+
+    <script src="assets/js/utils.js"></script>
+  </body>
+</html>

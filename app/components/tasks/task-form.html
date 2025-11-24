@@ -1,0 +1,150 @@
+<div class="task-form-container">
+  <div class="page-header">
+    <h1>{{ vm.isEditMode ? 'Edit Task' : 'Create New Task' }}</h1>
+    <p class="subtitle">
+      {{ vm.isEditMode ? 'Update task details' : 'Fill in the details to create
+      a new task' }}
+    </p>
+  </div>
+
+  <div class="form-card">
+    <div class="error-alert" ng-if="vm.error">{{ vm.error }}</div>
+
+    <form name="taskForm" ng-submit="vm.submitForm(taskForm.$valid)" novalidate>
+      <div class="form-group">
+        <label for="title" class="required">Task Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          ng-model="vm.task.title"
+          ng-blur="vm.validateField('title')"
+          ng-change="vm.clearError()"
+          class="form-control"
+          ng-class="{'error': vm.validationErrors.title}"
+          placeholder="Enter task title"
+          ng-disabled="!vm.task.editable && vm.isEditMode"
+          required
+          maxlength="100"
+        />
+        <div class="error-message" ng-if="vm.validationErrors.title">
+          {{ vm.validationErrors.title }}
+        </div>
+        <div class="field-hint">{{ vm.task.title.length }}/100 characters</div>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="required">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          ng-model="vm.task.description"
+          ng-blur="vm.validateField('description')"
+          ng-change="vm.clearError()"
+          class="form-control"
+          ng-class="{'error': vm.validationErrors.description}"
+          placeholder="Enter detailed description of the task"
+          ng-disabled="!vm.task.editable && vm.isEditMode"
+          rows="5"
+          required
+          maxlength="500"
+        ></textarea>
+        <div class="error-message" ng-if="vm.validationErrors.description">
+          {{ vm.validationErrors.description }}
+        </div>
+        <div class="field-hint">
+          {{ vm.task.description.length }}/500 characters
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="status" class="required">Status</label>
+        <select
+          id="status"
+          name="status"
+          ng-model="vm.task.status"
+          ng-blur="vm.validateField('status')"
+          ng-change="vm.clearError()"
+          class="form-control"
+          ng-class="{'error': vm.validationErrors.status}"
+          ng-disabled="!vm.task.editable && vm.isEditMode"
+          required
+        >
+          <option value="">-- Select Status --</option>
+          <option ng-repeat="status in vm.statusOptions" value="{{ status }}">
+            {{ status }}
+          </option>
+        </select>
+        <div class="error-message" ng-if="vm.validationErrors.status">
+          {{ vm.validationErrors.status }}
+        </div>
+        <div class="field-hint">
+          Note: Tasks marked as "Completed" cannot be edited later
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate" class="required">Due Date</label>
+        <input
+          type="date"
+          id="dueDate"
+          name="dueDate"
+          ng-model="vm.task.dueDate"
+          ng-blur="vm.validateField('dueDate')"
+          ng-change="vm.clearError()"
+          class="form-control"
+          ng-class="{'error': vm.validationErrors.dueDate}"
+          ng-disabled="!vm.task.editable && vm.isEditMode"
+          required
+        />
+        <div class="error-message" ng-if="vm.validationErrors.dueDate">
+          {{ vm.validationErrors.dueDate }}
+        </div>
+      </div>
+
+      <div class="info-box" ng-if="vm.isEditMode">
+        <p><strong>Task ID:</strong> #{{ vm.task.id }}</p>
+        <p ng-if="vm.task.createdAt">
+          <strong>Created:</strong> {{ vm.task.createdAt | date:'MMM dd, yyyy
+          HH:mm' }}
+        </p>
+        <p ng-if="vm.task.updatedAt">
+          <strong>Last Updated:</strong> {{ vm.task.updatedAt | date:'MMM dd,
+          yyyy HH:mm' }}
+        </p>
+        <p ng-if="vm.task.completedAt">
+          <strong>Completed:</strong> {{ vm.task.completedAt | date:'MMM dd,
+          yyyy HH:mm' }}
+        </p>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          ng-disabled="taskForm.$invalid || vm.isLoading || (!vm.task.editable && vm.isEditMode)"
+        >
+          <span ng-if="!vm.isLoading">
+            {{ vm.isEditMode ? '💾 Update Task' : '✓ Create Task' }}
+          </span>
+          <span ng-if="vm.isLoading">
+            {{ vm.isEditMode ? 'Updating...' : 'Creating...' }}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          ng-click="vm.cancel()"
+          ng-disabled="vm.isLoading"
+        >
+          ✕ Cancel
+        </button>
+      </div>
+
+      <div class="form-hints">
+        <p><span class="required"></span> Required field</p>
+      </div>
+    </form>
+  </div>
+</div>

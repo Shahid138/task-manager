@@ -1,0 +1,26 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="#!/tasks">
+        <span class="brand-text">Task Manager</span>
+      </a>
+    </div>
+
+    <div class="navbar-menu">
+      <a
+        href="#!/tasks"
+        class="nav-link"
+        ng-class="{'active': isActive('/tasks')}"
+      >
+        My Tasks
+      </a>
+    </div>
+
+    <div class="navbar-user">
+      <span class="user-info">
+        <span class="user-avatar">{{ currentUser.name.charAt(0) }}</span>
+      </span>
+      <button class="btn btn-logout" ng-click="logout()">Logout</button>
+    </div>
+  </div>
+</nav>

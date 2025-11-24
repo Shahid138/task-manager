@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Cache
+.cache/
+.vscode/
+.idea/
+
+# Compiled CSS/JS
+*.min.js
+*.min.css
+*.map
