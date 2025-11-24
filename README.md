@@ -104,7 +104,7 @@ task-management-app/
 │
 ├── app/
 │   ├── app.js                          # Main module
-│   ├── app.routes.js                   # Route configuration
+│   ├── app.routes.js                   # Route configurations
 │   │
 │   ├── components/
 │   │   ├── auth/                       # Authentication module
@@ -137,7 +137,7 @@ task-management-app/
 │
 ├── tests/
 │   ├── unit/                           # Unit test specs
-│   └── mock-data.js                    # Mock data for tests
+│   └── mock-data.js                    # Mock data for unit tests
 │
 ├── index.html                          # Main HTML file
 ├── package.json                        # Dependencies
@@ -145,7 +145,7 @@ task-management-app/
 └── README.md                           # This file
 ```
 
-## 🎨 Application Pages
+## Application Pages
 
 ### 1. Login Page (`/login`)
 - User authentication with username/password
@@ -256,4 +256,4 @@ karma start karma.conf.js --grep="AuthService"
 3. **Responsive Design**: Works on all screen sizes
 4. **User Feedback**: Loading states, error messages, confirmations
 5. **Data Persistence**: localStorage for offline capability
-6. **Comprehensive Testing**: >70% code coverage
+6. **Comprehensive Testing**: >70% code coverage (May Fail sometimes)
